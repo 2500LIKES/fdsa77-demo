@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FDSA77</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05070b;color:#fff;font-family:Prompt,sans-serif}
+.app{max-width:520px;min-height:100vh;margin:auto;background:radial-gradient(circle at 50% 0,#123c2a,transparent 35%),#080b10}
+header{height:72px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #202936;background:#090d13ee;position:sticky;top:0;z-index:5}
+.logo{font-size:25px;font-weight:800;color:#55ffad}
+.wallet{padding:9px 13px;border:1px solid #24563f;background:#0d1c16;border-radius:13px;color:#68ffb2;font-weight:700}
+.page{padding:18px}
+.card{background:linear-gradient(145deg,#111821,#0b1017);border:1px solid #26313e;border-radius:22px;padding:18px;box-shadow:0 15px 45px #0008;margin-bottom:16px}
+.login{margin-top:55px;padding:28px 20px;text-align:center}
+.logoBig{font-size:42px;font-weight:800;color:#50ffad}
+.sub{color:#7e8b9d;font-size:13px}
+input{width:100%;padding:14px;margin-top:10px;border-radius:12px;border:1px solid #293544;background:#080d14;color:#fff;outline:none;font-family:inherit}
+button{width:100%;border:0;padding:14px;margin-top:10px;border-radius:13px;font-family:inherit;font-weight:700;cursor:pointer;background:#00e887;color:#00150c}
+.secondary{background:#202b38;color:#fff}
+.red{background:#ef4444;color:white}
+.hidden{display:none!important}
+.title{display:flex;justify-content:space-between;align-items:center}
+.badge{font-size:11px;color:#58ffad;border:1px solid #245c43;padding:5px 9px;border-radius:20px}
+.game{position:relative;overflow:hidden;height:245px;border-radius:19px;background:linear-gradient(#536070 1px,transparent 1px),linear-gradient(90deg,#536070 1px,transparent 1px),#303947;background-size:48px 48px}
+.game:after{content:"";position:absolute;left:0;right:0;top:88px;height:65px;border-top:4px dashed #dce2e8;border-bottom:4px dashed #dce2e8}
+.chicken{position:absolute;z-index:2;left:50%;top:92px;transform:translateX(-50%);font-size:68px}
+.multiplier{text-align:center;font-size:54px;font-weight:800;color:#5dffb1;margin:15px 0 2px}
+.multiplier small{font-size:19px;color:#91a0b2}
+.status{text-align:center;color:#8e9aaa;font-size:13px;min-height:22px}
+.amounts{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.amount{background:#111a24;border:1px solid #293645;color:#cbd5e1;margin:0}
+.amount.active{background:#073e29;border-color:#00e887;color:#61ffb2}
+.action{font-size:17px;padding:16px}
+.info{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.info div{background:#0a1119;border:1px solid #202d3a;border-radius:13px;padding:12px}
+.info span{display:block;color:#718096;font-size:12px}
+.info b{font-size:18px}
+.nav{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.nav button{margin:0;background:#131c27;color:#dce5ef}
+.list{padding:12px 0;border-bottom:1px solid #202b37}
+.user{background:#0b121a;border:1px solid #202d3a;border-radius:15px;padding:13px;margin-top:10px}
+.user button{font-size:12px;padding:10px}
+.green{color:#55ffad}
+.yellow{color:#ffd166}
+.redtext{color:#ff6565}
+
+/* MODAL */
+.modal{
+ position:fixed;
+ inset:0;
+ background:#000b;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+ z-index:99;
+}
+.modalBox{
+ width:100%;
+ max-width:420px;
+ background:#111821;
+ border:1px solid #2b3948;
+ border-radius:22px;
+ padding:20px;
+ box-shadow:0 20px 70px #000;
+}
+.modalBox h3{margin-top:0}
+.modalBox .cancel{background:#202b38;color:#fff}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<section id="loginPage" class="page">
+<div class="card login">
+<div class="logoBig">FDSA77</div>
+<p class="sub">CHICKEN RUNNER • DEMO</p>
+
+<input id="loginUser" placeholder="ชื่อผู้ใช้">
+<input id="loginPass" type="password" placeholder="รหัสผ่าน">
+
+<button onclick="login()">เข้าสู่ระบบ</button>
+<button class="secondary" onclick="show('regPage')">สมัครสมาชิก</button>
+
+<p id="loginMsg" class="status"></p>
+</div>
+</section>
+
+
+<section id="regPage" class="page hidden">
+<div class="card login">
+<div class="logoBig">FDSA77</div>
+<h2>สมัครสมาชิก</h2>
+
+<input id="regUser" placeholder="ชื่อผู้ใช้">
+<input id="regPass" type="password" placeholder="รหัสผ่าน">
+
+<button onclick="register()">สร้างบัญชี</button>
+<button class="secondary" onclick="show('loginPage')">กลับ</button>
+
+<p id="regMsg" class="status"></p>
+</div>
+</section>
+
+
+<section id="gamePage" class="hidden">
+
+<header>
+<div class="logo">FDSA77</div>
+<div class="wallet">฿ <span id="balance">0.00</span></div>
+</header>
+
+<div class="page">
+
+<div class="card">
+
+<div class="title">
+<h3>🐔 Chicken Runner</h3>
+<span class="badge">DEMO</span>
+</div>
+
+<div class="game">
+<div id="chicken" class="chicken">🐔</div>
+</div>
+
+<div class="multiplier">
+<span id="multi">1.00</span><small>x</small>
+</div>
+
+<div id="status" class="status">
+เลือกจำนวนเงินจำลองแล้วกดเริ่ม
+</div>
+
+<div class="info">
+<div>
+<span>จำนวนรอบ</span>
+<b id="betDisplay">฿0.00</b>
+</div>
+
+<div>
+<span>รางวัลปัจจุบัน</span>
+<b>฿<span id="reward">0.00</span></b>
+</div>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>จำนวนเงินจำลอง</h3>
+
+<div class="amounts">
+<button class="amount" onclick="selectBet(10,this)">฿10</button>
+<button class="amount" onclick="selectBet(30,this)">฿30</button>
+<button class="amount" onclick="selectBet(50,this)">฿50</button>
+<button class="amount" onclick="selectBet(100,this)">฿100</button>
+<button class="amount" onclick="selectBet(500,this)">฿500</button>
+<button class="amount" onclick="selectBet(1000,this)">฿1,000</button>
+</div>
+
+<button id="start" class="action" onclick="startGame()">🚀 เริ่มเกม</button>
+<button id="cash" class="action hidden" onclick="cashout()">✋ หยุดและรับรางวัล</button>
+
+</div>
+
+
+<div class="nav">
+
+<button onclick="showHistory()">📜 ประวัติเล่น</button>
+<button onclick="showWallet()">💰 ฝาก-ถอน Demo</button>
+<button onclick="showProfile()">👤 บัญชี</button>
+
+<button id="adminBtn" class="hidden" onclick="showAdmin()">
+👑 Admin
+</button>
+
+</div>
+
+<button class="secondary" onclick="logout()">ออกจากระบบ</button>
+
+</div>
+</section>
+
+
+<section id="walletPage" class="page hidden">
+
+<div class="card">
+
+<h2>💰 ฝาก-ถอน Demo</h2>
+
+<p class="sub">
+ระบบนี้ใช้เครดิดจริงเท่านั้น
+</p>
+
+<h3>ฝากเครดิต</h3>
+
+<input id="depositAmount" type="number" placeholder="จำนวนเงิน">
+
+<button onclick="deposit()">
+ส่งคำขอฝาก
+</button>
+
+<p class="sub">
+รบกวนติดต่อแอดมิน ที่ LINE หรือ Telegram ได้เลย
+</p>
+
+<hr style="border-color:#202b37;margin:20px 0">
+
+<h3>ถอนเครดิต</h3>
+
+<input id="withdrawAmount" type="number" placeholder="จำนวนเงิน">
+
+<button onclick="withdraw()">
+ส่งคำขอถอน
+</button>
+
+<p class="sub">
+รบกวนติดต่อแอดมิน ที่ LINE หรือ Telegram ได้เลย
+</p>
+
+<button class="secondary" onclick="gamePage()">
+กลับเกม
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h3>📜 ประวัติฝาก-ถอน</h3>
+
+<div id="walletHistory"></div>
+
+</div>
+
+</section>
+
+
+<section id="historyPage" class="page hidden">
+
+<div class="card">
+
+<h2>📜 ประวัติเล่น</h2>
+
+<div id="history"></div>
+
+<button class="secondary" onclick="gamePage()">
+กลับเกม
+</button>
+
+</div>
+
+</section>
+
+
+<section id="profilePage" class="page hidden">
+
+<div class="card">
+
+<h2>👤 บัญชี</h2>
+
+<p>
+ชื่อผู้ใช้:
+<b id="pUser"></b>
+</p>
+
+<p>
+ยอดเครดิด:
+<b>฿<span id="pBalance"></span></b>
+</p>
+
+<button class="secondary" onclick="gamePage()">
+กลับเกม
+</button>
+
+</div>
+
+</section>
+
+
+<section id="adminPage" class="page hidden">
+
+<div class="card">
+
+<h2>👑 Admin Panel</h2>
+  
+  <div class="card">
+  <h3>🐔 ตั้งค่าโอกาสไก่ระเบิด</h3>
+
+  <input
+    id="explodePercent"
+    type="number"
+    min="1"
+    max="100"
+    step="1"
+    placeholder="เช่น 20"
+  >
+
+  <button class="action" onclick="saveExplodePercent()">
+    💾 บันทึก %
+  </button>
+
+  <p id="explodeStatus"></p>
+  </div>
+
+<p class="sub">
+จัดการสมาชิกและเครดิตจำลอง
+</p>
+
+<div id="users"></div>
+
+<button class="secondary" onclick="gamePage()">
+กลับเกม
+</button>
+
+</div>
+
+</section>
+
+</div>
+
+
+<!-- ADD MODAL -->
+
+<div id="addModal" class="modal hidden">
+
+<div class="modalBox">
+
+<h3>➕ เพิ่มเครดิตจำลอง</h3>
+
+<p id="addUserName" class="sub"></p>
+
+<input
+ id="addAmountInput"
+ type="number"
+ min="1"
+ placeholder="จำนวนเครดิต"
+/>
+
+<button onclick="confirmAddMoney()">
+✅ ยืนยันเพิ่มเครดิต
+</button>
+
+<button class="cancel" onclick="closeAddModal()">
+ยกเลิก
+</button>
+
+</div>
+
+</div>
+
+
+<!-- REMOVE MODAL -->
+
+<div id="removeModal" class="modal hidden">
+
+<div class="modalBox">
+
+<h3>➖ ลดเครดิตจำลอง</h3>
+
+<p id="removeUserName" class="sub"></p>
+
+<input
+ id="removeAmountInput"
+ type="number"
+ min="1"
+ placeholder="จำนวนเครดิต"
+/>
+
+<button class="red" onclick="confirmRemoveMoney()">
+✅ ยืนยันลดเครดิต
+</button>
+
+<button class="cancel" onclick="closeRemoveModal()">
+ยกเลิก
+</button>
+
+</div>
+
+</div>
+
+
+<script src="app.js"></script>
+
+</body>
+</html>
