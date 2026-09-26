@@ -1,0 +1,805 @@
+<!DOCTYPE html><html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ระบบหลังบ้าน</title><style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  padding:20px;
+  min-height:100vh;
+  font-family:Arial,sans-serif;
+  color:#fff;
+  background:linear-gradient(160deg,#321343,#100914,#070509);
+}
+
+.container{
+  width:100%;
+  max-width:600px;
+  margin:auto;
+}
+
+h1{
+  margin:5px 0;
+}
+
+.sub{
+  color:#aaa;
+  margin-bottom:25px;
+}
+
+.box{
+  background:#ffffff0b;
+  border:1px solid #ffffff14;
+  border-radius:20px;
+  padding:20px;
+  margin-bottom:18px;
+}
+
+.box h2{
+  margin:0 0 18px;
+  font-size:20px;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  margin-bottom:11px;
+  border:1px solid #ffffff18;
+  border-radius:13px;
+  outline:none;
+  background:#ffffff08;
+  color:white;
+  font-size:15px;
+}
+
+input::placeholder{
+  color:#999;
+}
+
+.add{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:13px;
+  background:#29d477;
+  color:#06150c;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.back{
+  width:100%;
+  padding:13px;
+  margin-bottom:20px;
+  border:0;
+  border-radius:13px;
+  background:#ffffff12;
+  color:white;
+  cursor:pointer;
+}
+
+.status{
+  min-height:20px;
+  margin-top:12px;
+  color:#70f4a4;
+  font-size:14px;
+}
+
+.item{
+  padding:15px;
+  margin-top:10px;
+  border-radius:14px;
+  background:#ffffff08;
+  border:1px solid #ffffff10;
+}
+
+.item img{
+  width:55px;
+  height:55px;
+  object-fit:cover;
+  border-radius:12px;
+  margin-bottom:9px;
+}
+
+.item strong{
+  display:block;
+  margin-bottom:6px;
+}
+
+.item small{
+  color:#aaa;
+  word-break:break-all;
+}
+
+.delete{
+  width:100%;
+  margin-top:10px;
+  padding:10px;
+  border:0;
+  border-radius:10px;
+  background:#d83d55;
+  color:white;
+  cursor:pointer;
+}
+
+/* กล่องยืนยันลบ */
+#deleteModal{
+  position:fixed;
+  inset:0;
+  z-index:5000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:#000c;
+}
+
+#deleteModal.show{
+  display:flex;
+}
+
+.confirmBox{
+  width:100%;
+  max-width:380px;
+  padding:25px;
+  border-radius:22px;
+  background:#18101f;
+  border:1px solid #ffffff18;
+  box-shadow:0 20px 60px #000;
+  text-align:center;
+}
+
+.confirmBox h2{
+  margin:0 0 10px;
+}
+
+.confirmBox p{
+  color:#aaa;
+  margin-bottom:22px;
+}
+
+.confirmButtons{
+  display:flex;
+  gap:10px;
+}
+
+.confirmButtons button{
+  flex:1;
+  padding:13px;
+  border:0;
+  border-radius:12px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.cancelBtn{
+  background:#ffffff12;
+  color:#fff;
+}
+
+.confirmDelete{
+  background:#d83d55;
+  color:#fff;
+}
+
+#deleteStatus{
+  margin-top:12px;
+  color:#ff8d9e;
+  font-size:14px;
+}
+</style></head><body><div class="container">  <h1>⚙️ ระบบหลังบ้าน</h1>
+  <div class="sub">จัดการข้อมูลเว็บไซต์</div><button
+class="back"
+type="button"
+onclick="location.href='home.html'"
+
+«»
+
+← กลับหน้าเว็บไซต์
+
+  </button>  <!-- โค้ด -->  <div class="box"><h2>🎟️ โค้ด</h2>
+
+<input
+  id="codeName"
+  type="text"
+  placeholder="ตั้งชื่อ"
+>
+
+<input
+  id="codeValue"
+  type="text"
+  placeholder="ใส่โค้ด"
+>
+
+<button
+  class="add"
+  type="button"
+  onclick="addCode()"
+>
+  เพิ่มโค้ด
+</button>
+
+<div id="codeStatus" class="status"></div>
+
+  </div>  <!-- ซอง -->  <div class="box"><h2>🧧 ซองอั่งเปา</h2>
+
+<input
+  id="envelopeName"
+  type="text"
+  placeholder="ตั้งชื่อซอง"
+>
+
+<input
+  id="envelopeLink"
+  type="url"
+  placeholder="ใส่ลิงก์ซอง"
+>
+
+<button
+  class="add"
+  type="button"
+  onclick="addEnvelope()"
+>
+  เพิ่มซอง
+</button>
+
+<div id="envelopeStatus" class="status"></div>
+
+  </div>  <!-- เว็บไซต์ -->  <div class="box"><h2>🌐 เว็บไซต์</h2>
+
+<input
+  id="websiteLogo"
+  type="url"
+  placeholder="ใส่ลิงก์รูป"
+>
+
+<input
+  id="websiteLink"
+  type="url"
+  placeholder="ใส่ลิงก์เว็บไซต์"
+>
+
+<button
+  class="add"
+  type="button"
+  onclick="addWebsite()"
+>
+  เพิ่มเว็บไซต์
+</button>
+
+<div id="websiteStatus" class="status"></div>
+
+  </div>  <!-- รายการ -->  <div class="box"><h2>📋 รายการทั้งหมด</h2>
+
+<div id="list">
+  กำลังโหลด...
+</div>
+
+  </div></div><!-- กล่องยืนยันลบ --><div id="deleteModal">  <div class="confirmBox"><h2>🗑️ ยืนยันการลบ</h2>
+
+<p>ต้องการลบรายการนี้ใช่ไหม?</p>
+
+<div class="confirmButtons">
+
+  <button
+    class="cancelBtn"
+    type="button"
+    onclick="closeDeleteModal()"
+  >
+    ยกเลิก
+  </button>
+
+  <button
+    class="confirmDelete"
+    type="button"
+    onclick="confirmDelete()"
+  >
+    ตกลง
+  </button>
+
+</div>
+
+<div id="deleteStatus"></div>
+
+  </div></div><script>
+
+/* =========================
+   SUPABASE
+========================= */
+
+const URL =
+"https://xsjusojjwpzhbfsbmkax.supabase.co";
+
+const KEY =
+"sb_publishable_LC69PMvBvzkF6n6sMRFzEg_TIjTtkUZ";
+
+const headers={
+  "Content-Type":"application/json",
+  "apikey":KEY,
+  "Authorization":"Bearer "+KEY,
+  "Prefer":"return=representation"
+};
+
+
+/* =========================
+   ตัวแปรรายการที่จะลบ
+========================= */
+
+let deleteId = null;
+
+
+/* =========================
+   เพิ่มโค้ด
+========================= */
+
+async function addCode(){
+
+  const name =
+    document.getElementById("codeName").value.trim();
+
+  const code =
+    document.getElementById("codeValue").value.trim();
+
+  const status =
+    document.getElementById("codeStatus");
+
+  if(!name || !code){
+
+    status.innerText =
+      "กรุณากรอกชื่อและโค้ด";
+
+    return;
+  }
+
+  status.innerText =
+    "กำลังเพิ่ม...";
+
+  try{
+
+    const response =
+      await fetch(
+        URL + "/rest/v1/items",
+        {
+          method:"POST",
+          headers:headers,
+          body:JSON.stringify({
+            type:"code",
+            name:name,
+            code:code
+          })
+        }
+      );
+
+    if(!response.ok){
+
+      status.innerText =
+        "เพิ่มไม่สำเร็จ: " +
+        await response.text();
+
+      return;
+    }
+
+    document.getElementById("codeName").value="";
+    document.getElementById("codeValue").value="";
+
+    status.innerText =
+      "เพิ่มโค้ดสำเร็จ ✓";
+
+    loadItems();
+
+  }catch(error){
+
+    status.innerText =
+      "เชื่อมต่อไม่สำเร็จ: " +
+      error.message;
+
+  }
+
+}
+
+
+/* =========================
+   เพิ่มซอง
+========================= */
+
+async function addEnvelope(){
+
+  const name =
+    document.getElementById("envelopeName").value.trim();
+
+  const link =
+    document.getElementById("envelopeLink").value.trim();
+
+  const status =
+    document.getElementById("envelopeStatus");
+
+  if(!name || !link){
+
+    status.innerText =
+      "กรุณากรอกชื่อและลิงก์ซอง";
+
+    return;
+  }
+
+  status.innerText =
+    "กำลังเพิ่ม...";
+
+  try{
+
+    const response =
+      await fetch(
+        URL + "/rest/v1/items",
+        {
+          method:"POST",
+          headers:headers,
+          body:JSON.stringify({
+            type:"envelope",
+            name:name,
+            link:link
+          })
+        }
+      );
+
+    if(!response.ok){
+
+      status.innerText =
+        "เพิ่มไม่สำเร็จ: " +
+        await response.text();
+
+      return;
+    }
+
+    document.getElementById("envelopeName").value="";
+    document.getElementById("envelopeLink").value="";
+
+    status.innerText =
+      "เพิ่มซองสำเร็จ ✓";
+
+    loadItems();
+
+  }catch(error){
+
+    status.innerText =
+      "เชื่อมต่อไม่สำเร็จ: " +
+      error.message;
+
+  }
+
+}
+
+
+/* =========================
+   เพิ่มเว็บไซต์
+========================= */
+
+async function addWebsite(){
+
+  const logo =
+    document.getElementById("websiteLogo").value.trim();
+
+  const link =
+    document.getElementById("websiteLink").value.trim();
+
+  const status =
+    document.getElementById("websiteStatus");
+
+  if(!logo || !link){
+
+    status.innerText =
+      "กรุณาใส่ลิงก์รูปและลิงก์เว็บไซต์";
+
+    return;
+  }
+
+  status.innerText =
+    "กำลังเพิ่ม...";
+
+  try{
+
+    const response =
+      await fetch(
+        URL + "/rest/v1/items",
+        {
+          method:"POST",
+          headers:headers,
+          body:JSON.stringify({
+            type:"website",
+            logo:logo,
+            link:link
+          })
+        }
+      );
+
+    if(!response.ok){
+
+      status.innerText =
+        "เพิ่มไม่สำเร็จ: " +
+        await response.text();
+
+      return;
+    }
+
+    document.getElementById("websiteLogo").value="";
+    document.getElementById("websiteLink").value="";
+
+    status.innerText =
+      "เพิ่มเว็บไซต์สำเร็จ ✓";
+
+    loadItems();
+
+  }catch(error){
+
+    status.innerText =
+      "เชื่อมต่อไม่สำเร็จ: " +
+      error.message;
+
+  }
+
+}
+
+
+/* =========================
+   โหลดรายการ
+========================= */
+
+async function loadItems(){
+
+  const list =
+    document.getElementById("list");
+
+  list.innerHTML =
+    "กำลังโหลด...";
+
+  try{
+
+    const response =
+      await fetch(
+        URL +
+        "/rest/v1/items?select=*&order=created_at.desc",
+        {
+          method:"GET",
+          headers:headers
+        }
+      );
+
+    if(!response.ok){
+
+      list.innerText =
+        "โหลดข้อมูลไม่สำเร็จ: " +
+        await response.text();
+
+      return;
+    }
+
+    const data =
+      await response.json();
+
+    if(!data.length){
+
+      list.innerText =
+        "ยังไม่มีข้อมูล";
+
+      return;
+    }
+
+    list.innerHTML =
+      data.map(function(item){
+
+        if(item.type === "code"){
+
+          return `
+            <div class="item">
+
+              <strong>
+                🎟️ ${safe(item.name)}
+              </strong>
+
+              <small>
+                โค้ด: ${safe(item.code)}
+              </small>
+
+              <button
+                class="delete"
+                type="button"
+                onclick="openDeleteModal('${safe(item.id)}')"
+              >
+                🗑️ ลบ
+              </button>
+
+            </div>
+          `;
+        }
+
+
+        if(item.type === "envelope"){
+
+          return `
+            <div class="item">
+
+              <strong>
+                🧧 ${safe(item.name)}
+              </strong>
+
+              <small>
+                ${safe(item.link)}
+              </small>
+
+              <button
+                class="delete"
+                type="button"
+                onclick="openDeleteModal('${safe(item.id)}')"
+              >
+                🗑️ ลบ
+              </button>
+
+            </div>
+          `;
+        }
+
+
+        if(item.type === "website"){
+
+          return `
+            <div class="item">
+
+              <img
+                src="${safe(item.logo)}"
+                onerror="this.style.display='none'"
+              >
+
+              <strong>
+                🌐 เว็บไซต์
+              </strong>
+
+              <small>
+                ${safe(item.link)}
+              </small>
+
+              <button
+                class="delete"
+                type="button"
+                onclick="openDeleteModal('${safe(item.id)}')"
+              >
+                🗑️ ลบ
+              </button>
+
+            </div>
+          `;
+        }
+
+        return "";
+
+      }).join("");
+
+  }catch(error){
+
+    console.error(error);
+
+    list.innerText =
+      "เกิดข้อผิดพลาดในการโหลด";
+
+  }
+
+}
+
+
+/* =========================
+   เปิดกล่องยืนยัน
+========================= */
+
+function openDeleteModal(id){
+
+  deleteId = id;
+
+  document
+    .getElementById("deleteStatus")
+    .innerText = "";
+
+  document
+    .getElementById("deleteModal")
+    .classList.add("show");
+
+}
+
+
+/* =========================
+   ปิดกล่องยืนยัน
+========================= */
+
+function closeDeleteModal(){
+
+  deleteId = null;
+
+  document
+    .getElementById("deleteModal")
+    .classList.remove("show");
+
+}
+
+
+/* =========================
+   ยืนยันลบ
+========================= */
+
+async function confirmDelete(){
+
+  if(!deleteId){
+
+    return;
+  }
+
+  const id = deleteId;
+
+  const status =
+    document.getElementById("deleteStatus");
+
+  status.innerText =
+    "กำลังลบ...";
+
+
+  try{
+
+    const response =
+      await fetch(
+        URL +
+        "/rest/v1/items?id=eq." +
+        encodeURIComponent(id),
+        {
+          method:"DELETE",
+          headers:headers
+        }
+      );
+
+
+    if(!response.ok){
+
+      status.innerText =
+        "ลบไม่สำเร็จ: " +
+        await response.text();
+
+      return;
+    }
+
+
+    closeDeleteModal();
+
+    loadItems();
+
+  }catch(error){
+
+    status.innerText =
+      "เกิดข้อผิดพลาด: " +
+      error.message;
+
+  }
+
+}
+
+
+/* =========================
+   ป้องกัน HTML
+========================= */
+
+function safe(value){
+
+  return String(value || "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================
+   เริ่มต้น
+========================= */
+
+loadItems();
+
+</script></body>
+</html>

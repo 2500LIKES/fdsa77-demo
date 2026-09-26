@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ของดีบอกต่อ</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(160deg,#321343,#100914 55%,#070509);
+  min-height:100vh;
+}
+
+header{
+  height:70px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:0 16px;
+  background:#0d0912;
+  border-bottom:1px solid #ffffff15;
+}
+
+.menuBtn{
+  width:45px;
+  height:45px;
+  border:0;
+  border-radius:13px;
+  background:#ffffff12;
+  color:#fff;
+  font-size:24px;
+  cursor:pointer;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:20px;
+}
+
+.brand img{
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  object-fit:cover;
+}
+
+main{
+  max-width:650px;
+  margin:auto;
+  padding:25px 17px 50px;
+}
+
+.page{display:block}
+.hide{display:none}
+
+.hero{
+  text-align:center;
+  padding:25px 0 30px;
+}
+
+.hero img{
+  width:125px;
+  height:125px;
+  object-fit:cover;
+  border-radius:30px;
+  box-shadow:0 15px 40px #0009;
+}
+
+.hero h1{
+  font-size:31px;
+  margin:18px 0 8px;
+}
+
+.hero p{
+  color:#aaa;
+}
+
+.card{
+  padding:18px;
+  margin:13px 0;
+  border-radius:18px;
+  background:#ffffff0b;
+  border:1px solid #ffffff12;
+}
+
+.card img{
+  width:65px;
+  height:65px;
+  object-fit:cover;
+  border-radius:15px;
+}
+
+.card h3{
+  margin:10px 0 7px;
+}
+
+.card p{
+  color:#aaa;
+}
+
+.card a,
+.homeWebsite a{
+  display:block;
+  padding:13px;
+  margin-top:13px;
+  text-align:center;
+  color:white;
+  text-decoration:none;
+  border-radius:12px;
+  background:linear-gradient(90deg,#8245ff,#bd55ff);
+}
+
+.back{
+  border:0;
+  border-radius:11px;
+  padding:10px 14px;
+  background:#ffffff12;
+  color:white;
+  cursor:pointer;
+}
+
+/* เว็บไซต์หน้าแรก */
+
+.homeWebsite{
+  padding:18px;
+  margin:15px 0;
+  border-radius:20px;
+  background:#ffffff0b;
+  border:1px solid #ffffff12;
+}
+
+.homeWebsite img{
+  width:100%;
+  height:230px;
+  object-fit:cover;
+  border-radius:17px;
+  display:block;
+  margin-bottom:15px;
+}
+
+.homeWebsite h3{
+  margin:5px 0 12px;
+  font-size:20px;
+}
+
+.homeWebsite a{
+  margin-top:10px;
+}
+
+/* MENU */
+
+#menu{
+  position:fixed;
+  top:0;
+  left:0;
+  width:285px;
+  height:100vh;
+  padding:20px;
+  background:#120b18;
+  z-index:999;
+  transform:translateX(-100%);
+  transition:transform .25s ease;
+  box-shadow:10px 0 35px #000b;
+}
+
+#menu.show{
+  transform:translateX(0);
+}
+
+.menuTitle{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-size:21px;
+  margin-bottom:20px;
+}
+
+.menuTitle button{
+  border:0;
+  border-radius:10px;
+  padding:9px 12px;
+  color:#fff;
+  background:#ffffff12;
+  font-size:18px;
+}
+
+.menuItem{
+  width:100%;
+  padding:15px;
+  margin:5px 0;
+  border:0;
+  border-radius:13px;
+  background:#ffffff08;
+  color:#fff;
+  text-align:left;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.setting{
+  position:absolute;
+  left:20px;
+  right:20px;
+  bottom:25px;
+}
+
+.setting .menuItem{
+  color:#55e695;
+}
+
+/* LOGIN */
+
+#login{
+  position:fixed;
+  inset:0;
+  z-index:2000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:#000c;
+}
+
+#login.show{
+  display:flex;
+}
+
+.loginBox{
+  width:100%;
+  max-width:380px;
+  padding:25px;
+  border-radius:22px;
+  background:#18101f;
+  border:1px solid #ffffff15;
+}
+
+.loginBox input{
+  width:100%;
+  padding:14px;
+  margin:15px 0;
+  border:1px solid #ffffff15;
+  border-radius:12px;
+  outline:none;
+  background:#ffffff08;
+  color:#fff;
+}
+
+.loginBox .submit{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:12px;
+  background:#28c978;
+  color:#06140c;
+  font-weight:bold;
+}
+
+.close{
+  float:right;
+  border:0;
+  border-radius:10px;
+  padding:8px 11px;
+  color:#fff;
+  background:#ffffff12;
+}
+
+.loading{
+  color:#aaa;
+  text-align:center;
+  padding:20px;
+}
+
+.empty{
+  color:#aaa;
+  text-align:center;
+  padding:20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+  <button
+    class="menuBtn"
+    type="button"
+    onclick="openMenu()"
+  >☰</button>
+
+  <div class="brand">
+
+    <img src="https://cdn.phototourl.com/member/2026-09-26-aad54ddc-dccb-4156-b083-f427cd455b93.jpg">
+
+    <b>ของดีบอกต่อ</b>
+
+  </div>
+
+</header>
+
+
+<!-- เมนู -->
+
+<div id="menu">
+
+  <div class="menuTitle">
+
+    <b>เมนู</b>
+
+    <button
+      type="button"
+      onclick="closeMenu()"
+    >✕</button>
+
+  </div>
+
+
+  <button
+    class="menuItem"
+    type="button"
+    onclick="showPage('home')"
+  >
+    🏠 หน้าหลัก
+  </button>
+
+
+  <button
+    class="menuItem"
+    type="button"
+    onclick="showPage('codes')"
+  >
+    🎟️ โค้ด
+  </button>
+
+
+  <button
+    class="menuItem"
+    type="button"
+    onclick="showPage('envelopes')"
+  >
+    🧧 ลิงก์ซอง
+  </button>
+
+
+  <button
+    class="menuItem"
+    type="button"
+    onclick="showPage('websites')"
+  >
+    🌐 เว็บไซต์
+  </button>
+
+
+  <div class="setting">
+
+    <button
+      class="menuItem"
+      type="button"
+      onclick="openLogin()"
+    >
+      ⚙️ ตั้งค่า
+    </button>
+
+  </div>
+
+</div>
+
+
+<main>
+
+<!-- =========================
+     หน้าหลัก
+========================= -->
+
+<section id="home" class="page">
+
+  <div class="hero">
+
+    <img src="https://cdn.phototourl.com/member/2026-09-26-aad54ddc-dccb-4156-b083-f427cd455b93.jpg">
+
+    <h1>ของดีบอกต่อ</h1>
+
+    <p>รวมเว็บไซต์ที่น่าสนใจ</p>
+
+  </div>
+
+
+  <div id="homeWebsites">
+
+    <div class="loading">
+      กำลังโหลดเว็บไซต์...
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     โค้ด
+========================= -->
+
+<section id="codes" class="page hide">
+
+  <button
+    class="back"
+    type="button"
+    onclick="showPage('home')"
+  >
+    ← กลับหน้าหลัก
+  </button>
+
+  <h2>🎟️ โค้ด</h2>
+
+  <div id="codesList">
+
+    <div class="loading">
+      กำลังโหลด...
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     ซอง
+========================= -->
+
+<section id="envelopes" class="page hide">
+
+  <button
+    class="back"
+    type="button"
+    onclick="showPage('home')"
+  >
+    ← กลับหน้าหลัก
+  </button>
+
+  <h2>🧧 ลิงก์ซอง</h2>
+
+  <div id="envelopesList">
+
+    <div class="loading">
+      กำลังโหลด...
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     เว็บไซต์
+========================= -->
+
+<section id="websites" class="page hide">
+
+  <button
+    class="back"
+    type="button"
+    onclick="showPage('home')"
+  >
+    ← กลับหน้าหลัก
+  </button>
+
+  <h2>🌐 เว็บไซต์</h2>
+
+  <div id="websitesList">
+
+    <div class="loading">
+      กำลังโหลด...
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- =========================
+     LOGIN
+========================= -->
+
+<div id="login">
+
+  <div class="loginBox">
+
+    <button
+      class="close"
+      type="button"
+      onclick="closeLogin()"
+    >
+      ✕
+    </button>
+
+    <h2>SADJ</h2>
+
+    <input
+      id="password"
+      type="password"
+      placeholder="รหัส"
+    >
+
+    <button
+      class="submit"
+      type="button"
+      onclick="checkPassword()"
+    >
+      ยืนยัน
+    </button>
+
+    <p id="error"></p>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   SUPABASE
+========================= */
+
+const URL =
+"https://xsjusojjwpzhbfsbmkax.supabase.co";
+
+const KEY =
+"sb_publishable_LC69PMvBvzkF6n6sMRFzEg_TIjTtkUZ";
+
+
+const supabaseHeaders = {
+
+  "apikey": KEY,
+
+  "Authorization":
+    "Bearer " + KEY
+
+};
+
+
+/* =========================
+   MENU
+========================= */
+
+function openMenu(){
+
+  document
+    .getElementById("menu")
+    .classList.add("show");
+
+}
+
+
+function closeMenu(){
+
+  document
+    .getElementById("menu")
+    .classList.remove("show");
+
+}
+
+
+function showPage(page){
+
+  document
+    .querySelectorAll(".page")
+    .forEach(function(item){
+
+      item.classList.add("hide");
+
+    });
+
+
+  const target =
+    document.getElementById(page);
+
+  if(target){
+
+    target.classList.remove("hide");
+
+  }
+
+
+  closeMenu();
+
+  window.scrollTo(0,0);
+
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+function openLogin(){
+
+  closeMenu();
+
+  document
+    .getElementById("login")
+    .classList.add("show");
+
+}
+
+
+function closeLogin(){
+
+  document
+    .getElementById("login")
+    .classList.remove("show");
+
+}
+
+
+function checkPassword(){
+
+  const password =
+    document.getElementById("password").value;
+
+
+  if(password === "เดา"){
+
+    window.location.href =
+      "admin.html";
+
+  }else{
+
+    document.getElementById("error").innerText =
+      "รหัสไม่ถูกต้อง";
+
+  }
+
+}
+
+
+/* =========================
+   ป้องกัน HTML
+========================= */
+
+function escapeHtml(value){
+
+  return String(value || "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================
+   โหลดข้อมูลทั้งหมด
+========================= */
+
+async function loadAll(){
+
+  await Promise.all([
+
+    loadCodes(),
+
+    loadEnvelopes(),
+
+    loadWebsites(),
+
+    loadHomeWebsites()
+
+  ]);
+
+}
+
+
+/* =========================
+   เว็บไซต์หน้าแรก
+========================= */
+
+async function loadHomeWebsites(){
+
+  const box =
+    document.getElementById("homeWebsites");
+
+
+  if(!box) return;
+
+
+  try{
+
+    const response =
+      await fetch(
+
+        URL +
+        "/rest/v1/items?type=eq.website&select=*&order=created_at.desc",
+
+        {
+          method:"GET",
+          headers:supabaseHeaders
+        }
+
+      );
+
+
+    if(!response.ok){
+
+      box.innerHTML =
+        '<div class="empty">โหลดเว็บไซต์ไม่สำเร็จ</div>';
+
+      console.log(
+        await response.text()
+      );
+
+      return;
+
+    }
+
+
+    const websites =
+      await response.json();
+
+
+    if(websites.length === 0){
+
+      box.innerHTML =
+        '<div class="empty">ยังไม่มีเว็บไซต์</div>';
+
+      return;
+
+    }
+
+
+    box.innerHTML =
+      websites.map(function(item){
+
+        const logo =
+          item.logo || "";
+
+        const link =
+          item.link || "#";
+
+
+        return `
+
+          <div class="homeWebsite">
+
+            ${
+              logo
+              ?
+              `
+              <img
+                src="${escapeHtml(logo)}"
+                onerror="this.style.display='none'"
+              >
+              `
+              :
+              ""
+            }
+
+            <h3>
+              🌐 เว็บไซต์
+            </h3>
+
+            <a
+              href="${escapeHtml(link)}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              เปิดเว็บไซต์
+            </a>
+
+          </div>
+
+        `;
+
+      }).join("");
+
+
+  }catch(error){
+
+    console.error(error);
+
+    box.innerHTML =
+      '<div class="empty">เชื่อมต่อไม่สำเร็จ</div>';
+
+  }
+
+}
+
+
+/* =========================
+   โหลดโค้ด
+========================= */
+
+async function loadCodes(){
+
+  const box =
+    document.getElementById("codesList");
+
+
+  try{
+
+    const response =
+      await fetch(
+
+        URL +
+        "/rest/v1/items?type=eq.code&select=*&order=created_at.desc",
+
+        {
+          method:"GET",
+          headers:supabaseHeaders
+        }
+
+      );
+
+
+    if(!response.ok){
+
+      box.innerHTML =
+        '<div class="empty">โหลดโค้ดไม่สำเร็จ</div>';
+
+      console.log(
+        await response.text()
+      );
+
+      return;
+
+    }
+
+
+    const codes =
+      await response.json();
+
+
+    if(codes.length === 0){
+
+      box.innerHTML =
+        '<div class="empty">ยังไม่มีโค้ด</div>';
+
+      return;
+
+    }
+
+
+    box.innerHTML =
+      codes.map(function(item){
+
+        return `
+
+          <div class="card">
+
+            <h3>
+              🎟️ ${escapeHtml(item.name || "โค้ด")}
+            </h3>
+
+            <p>
+              โค้ด:
+              <strong>
+                ${escapeHtml(item.code || "")}
+              </strong>
+            </p>
+
+          </div>
+
+        `;
+
+      }).join("");
+
+
+  }catch(error){
+
+    console.error(error);
+
+    box.innerHTML =
+      '<div class="empty">เชื่อมต่อไม่สำเร็จ</div>';
+
+  }
+
+}
+
+
+/* =========================
+   โหลดซอง
+========================= */
+
+async function loadEnvelopes(){
+
+  const box =
+    document.getElementById("envelopesList");
+
+
+  try{
+
+    const response =
+      await fetch(
+
+        URL +
+        "/rest/v1/items?type=eq.envelope&select=*&order=created_at.desc",
+
+        {
+          method:"GET",
+          headers:supabaseHeaders
+        }
+
+      );
+
+
+    if(!response.ok){
+
+      box.innerHTML =
+        '<div class="empty">โหลดซองไม่สำเร็จ</div>';
+
+      console.log(
+        await response.text()
+      );
+
+      return;
+
+    }
+
+
+    const envelopes =
+      await response.json();
+
+
+    if(envelopes.length === 0){
+
+      box.innerHTML =
+        '<div class="empty">ยังไม่มีลิงก์ซอง</div>';
+
+      return;
+
+    }
+
+
+    box.innerHTML =
+      envelopes.map(function(item){
+
+        return `
+
+          <div class="card">
+
+            <h3>
+              🧧 ${escapeHtml(
+                item.name || "ซองอั่งเปา"
+              )}
+            </h3>
+
+            <a
+              href="${escapeHtml(
+                item.link || "#"
+              )}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              เปิดลิงก์ซอง
+            </a>
+
+          </div>
+
+        `;
+
+      }).join("");
+
+
+  }catch(error){
+
+    console.error(error);
+
+    box.innerHTML =
+      '<div class="empty">เชื่อมต่อไม่สำเร็จ</div>';
+
+  }
+
+}
+
+
+/* =========================
+   โหลดเว็บไซต์
+========================= */
+
+async function loadWebsites(){
+
+  const box =
+    document.getElementById("websitesList");
+
+
+  try{
+
+    const response =
+      await fetch(
+
+        URL +
+        "/rest/v1/items?type=eq.website&select=*&order=created_at.desc",
+
+        {
+          method:"GET",
+          headers:supabaseHeaders
+        }
+
+      );
+
+
+    if(!response.ok){
+
+      box.innerHTML =
+        '<div class="empty">โหลดเว็บไซต์ไม่สำเร็จ</div>';
+
+      console.log(
+        await response.text()
+      );
+
+      return;
+
+    }
+
+
+    const websites =
+      await response.json();
+
+
+    if(websites.length === 0){
+
+      box.innerHTML =
+        '<div class="empty">ยังไม่มีเว็บไซต์</div>';
+
+      return;
+
+    }
+
+
+    box.innerHTML =
+      websites.map(function(item){
+
+        const logo =
+          item.logo || "";
+
+        const link =
+          item.link || "#";
+
+
+        return `
+
+          <div class="card">
+
+            ${
+              logo
+              ?
+              `
+              <img
+                src="${escapeHtml(logo)}"
+                onerror="this.style.display='none'"
+              >
+              `
+              :
+              ""
+            }
+
+            <h3>
+              🌐 เว็บไซต์
+            </h3>
+
+            <a
+              href="${escapeHtml(link)}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              เปิดเว็บไซต์
+            </a>
+
+          </div>
+
+        `;
+
+      }).join("");
+
+
+  }catch(error){
+
+    console.error(error);
+
+    box.innerHTML =
+      '<div class="empty">เชื่อมต่อไม่สำเร็จ</div>';
+
+  }
+
+}
+
+
+/* =========================
+   เริ่มระบบ
+========================= */
+
+loadAll();
+
+</script>
+
+</body>
+</html>
